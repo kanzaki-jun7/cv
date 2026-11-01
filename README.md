@@ -53,18 +53,18 @@ npm run preview
 
 Template: `deploy/apache/jdanu.suratkita.id.conf`
 
-Expected production document root:
+Production document root:
 
 ```text
-/var/www/jdanu.suratkita.id/dist
+/var/www/html/jdanu.suratkita.id
 ```
 
 Example server setup:
 
 ```bash
-sudo mkdir -p /var/www/jdanu.suratkita.id
+sudo mkdir -p /var/www/html/jdanu.suratkita.id
 npm run build
-sudo rsync -a --delete dist/ /var/www/jdanu.suratkita.id/dist/
+sudo rsync -a --delete dist/ /var/www/html/jdanu.suratkita.id/
 sudo cp deploy/apache/jdanu.suratkita.id.conf /etc/apache2/sites-available/
 sudo a2ensite jdanu.suratkita.id.conf
 sudo apache2ctl configtest
