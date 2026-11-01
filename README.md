@@ -4,33 +4,82 @@ Static personal CV / portfolio page for [kanzaki-jun7](https://github.com/kanzak
 
 ## Stack
 
+- Node.js
+- Vite `8.3.5`
 - HTML5
 - CSS3
 - Vanilla JavaScript
-- No framework
-- No npm dependency
-- No build step
+- No UI framework
 
 ## Structure
 
 ```text
 .
-├── index.html        # page structure and content
+├── index.html
+├── package.json
 ├── src/
-│   ├── app.js        # tiny dynamic behavior (current year)
-│   └── styles.css    # responsive design system and layout
+│   ├── app.js
+│   └── styles.css
+├── deploy/
+│   └── apache/
+│       └── jdanu.suratkita.id.conf
 └── README.md
 ```
 
-## Run locally
-
-Open `index.html` directly, or serve it with any static server:
+## Local development
 
 ```bash
-python3 -m http.server 8080
+npm install
+npm run dev
 ```
 
-Then open `http://127.0.0.1:8080`.
+Vite opens a development server with hot reload.
+
+## Production build
+
+```bash
+npm run build
+```
+
+Output goes to `dist/`. Deploy only `dist/` to the web server.
+
+Preview production output:
+
+```bash
+npm run preview
+```
+
+## Apache vhost
+
+Template: `deploy/apache/jdanu.suratkita.id.conf`
+
+Expected production document root:
+
+```text
+/var/www/jdanu.suratkita.id/dist
+```
+
+Example server setup:
+
+```bash
+sudo mkdir -p /var/www/jdanu.suratkita.id
+npm run build
+sudo rsync -a --delete dist/ /var/www/jdanu.suratkita.id/dist/
+sudo cp deploy/apache/jdanu.suratkita.id.conf /etc/apache2/sites-available/
+sudo a2ensite jdanu.suratkita.id.conf
+sudo apache2ctl configtest
+sudo systemctl reload apache2
+```
+
+Point DNS `jdanu.suratkita.id` to Kalix before HTTP validation. HTTPS can be added after DNS resolves, using the server's existing certificate workflow.
+
+## Animation
+
+- Scroll progress bar
+- IntersectionObserver reveal
+- Staggered section/list reveal
+- Hover movement on actions and project rows
+- `prefers-reduced-motion` fallback
 
 ## Notes
 
